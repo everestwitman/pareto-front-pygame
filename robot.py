@@ -12,7 +12,7 @@ class Robot:
         self.dying = False
         self.velocity = [0, 0]
         self.animation_countdown = 0
-        self.die()
+        # self.die()
         self.startingAnimation()
     
     def getX(self):
@@ -27,7 +27,7 @@ class Robot:
     def setY(self, y): 
         self.position = (self.getX(), y)
         
-    def moveAnimationFrame(self, surface, markerSize): 
+    def moveAnimationFrame(self): 
         print(self.animation_countdown)
         if self.animation_countdown > 0: 
             # self.setX(self.getX() + pytweening.easeInQuad(self.animation_countdown / c.FPS) * 20)
@@ -37,9 +37,10 @@ class Robot:
             self.animation_countdown -= 1
         else: 
             self.stopMovement()
-            # if self.dying == True: 
-            #     del self
-        self.draw(surface, markerSize)
+            if self.dying == True: 
+                self.animateMovementToPos((-2 * (c.PRIMARY_MARKER_SIZE), (-2 * (c.PRIMARY_MARKER_SIZE))), 20)
+                
+        # self.draw(surface, markerSize)
             
     # def moveAnimationFrame(self, surface, markerSize): 
     # 

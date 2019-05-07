@@ -52,9 +52,13 @@ class ParetoFront:
             display.fill(c.WHITE)
             
             # self.animateMovement()
+            
+            self.updateParetoFront()
+            self.animateMovement()
+            
             self.drawShadow(display)
             self.drawPoints(display, self.primaryBotIndex)
-            self.updateParetoFront()
+            
             pygame.display.update()
             self.clock.tick(60)
     
@@ -70,8 +74,8 @@ class ParetoFront:
             if not(bot.inShadow(self.pop)):
                 paretoFront.append(bot)
                 bot.revive()
-            else:
-                bot.die()
+            # else:
+            #     bot.die()
                 
         return paretoFront
     
@@ -83,9 +87,9 @@ class ParetoFront:
         for bot in self.pop:
             # self.clearDead()
             if (bot.index != primaryBotIndex):
-                bot.moveAnimationFrame(surface, c.MARKER_SIZE)
+                bot.draw(surface, c.MARKER_SIZE)
             else:
-                bot.moveAnimationFrame(surface, c.PRIMARY_MARKER_SIZE)
+                bot.draw(surface, c.PRIMARY_MARKER_SIZE)
     
     def clearDead(self):
         for bot in self.pop:
@@ -95,7 +99,8 @@ class ParetoFront:
 
     def drawShadow(self, surface):
         for bot in self.paretoFront: 
-            bot.drawShadow(surface)
+            if bot.dying == False:
+                bot.drawShadow(surface)
          
 paretoFront = ParetoFront()
 paretoFront.draw()
