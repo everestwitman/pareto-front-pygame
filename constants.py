@@ -92,8 +92,13 @@ for i in range(0, len(colorRGBsPygame)):
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+RED = (255, 0, 0)
 
 DISPLAY_WIDTH = 1000
 DISPLAY_HEIGHT = 1000
 
+MARKER_SIZE = 24 
+PRIMARY_MARKER_SIZE = MARKER_SIZE * 2
+
+FPS = 60
 popSize = len(colors)
