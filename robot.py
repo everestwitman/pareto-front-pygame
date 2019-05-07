@@ -5,14 +5,14 @@ import constants as c
 import random
 
 class Robot:
-    def __init__(self, index, position): 
-        self.index = index
+    def __init__(self, id, position): 
+        self.id = id
         self.position = position
-        self.color = c.colorRGBsPygame[index]    
+        self.color = c.colorRGBsPygame[(self.id % len(c.colorRGBsPygame))]    
         self.dying = False
         self.velocity = [0, 0]
         self.animation_countdown = 0
-        # self.die()
+        
         self.startingAnimation()
     
     def getX(self):
@@ -27,37 +27,19 @@ class Robot:
     def setY(self, y): 
         self.position = (self.getX(), y)
         
+    def animateDeath(self): 
+        self.animateMovementToPos((-2 * (c.PRIMARY_MARKER_SIZE), (-2 * (c.PRIMARY_MARKER_SIZE))), 20)
+        
     def moveAnimationFrame(self): 
-        print(self.animation_countdown)
+        # print(self.animation_countdown)
         if self.animation_countdown > 0: 
-            # self.setX(self.getX() + pytweening.easeInQuad(self.animation_countdown / c.FPS) * 20)
-            # self.setY(self.getY() + pytweening.easeInQuad(self.animation_countdown / c.FPS) * 0)
             self.moveRight(self.velocity[0])
             self.moveUp(self.velocity[1])
             self.animation_countdown -= 1
         else: 
             self.stopMovement()
             if self.dying == True: 
-                self.animateMovementToPos((-2 * (c.PRIMARY_MARKER_SIZE), (-2 * (c.PRIMARY_MARKER_SIZE))), 20)
-                
-        # self.draw(surface, markerSize)
-            
-    # def moveAnimationFrame(self, surface, markerSize): 
-    # 
-    #     print(self.animation_countdown)
-    #     if self.animation_countdown < 20: 
-    #         self.setX(self.getX() + pytweening.easeInQuad(self.animation_countdown / c.FPS) * 20)
-    #         self.setY(self.getY() + pytweening.easeInQuad(self.animation_countdown / c.FPS) * 0)
-    #         # self.moveRight(self.velocity[0])
-    #         # self.moveUp(self.velocity[1])
-    #         self.animation_countdown += 1
-    # 
-    #     self.draw(surface, markerSize)
-    # 
-    #     # else: 
-    #         # self.stopMovement()
-    #         # if self.dying == True: 
-    #         #     del self
+                self.animateDeath()
             
     def startingAnimation(self):
         position = self.position
@@ -104,8 +86,8 @@ class Robot:
         return translated_position
         
     def draw(self, surface, markerSize):
-        # self.moveAnimationFrame()
-        pygame.draw.circle(surface, self.color, self.translate_position(self.position), markerSize)
+        if (self.getX() >= 0) and (self.getY() >= 0): 
+            pygame.draw.circle(surface, self.color, self.translate_position(self.position), markerSize)
         if self.dying:
             self.drawCrossOfDeath(surface)
     
@@ -122,10 +104,7 @@ class Robot:
         self.dying = False
         
     def die(self): 
-        print("dying")
-        print(self.color)
         self.dying = True
-        # self.animation_countdown = 10
         
     def inShadow(self, pop):         
         for bot in pop:
