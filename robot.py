@@ -100,6 +100,14 @@ class Robot:
         pygame.draw.line(surface, c.RED, (trans_pos[0] - c.MARKER_SIZE, trans_pos[1] - c.MARKER_SIZE), (trans_pos[0] + c.MARKER_SIZE, trans_pos[1] + c.MARKER_SIZE), 4) 
         pygame.draw.line(surface, c.RED, (trans_pos[0] - c.MARKER_SIZE, trans_pos[1] + c.MARKER_SIZE), (trans_pos[0] + c.MARKER_SIZE, trans_pos[1] - c.MARKER_SIZE), 4) 
     
+    def isOnGraph(self):
+        if (self.getX() >= 0) and (self.getY() >= 0):
+            return True
+        return False
+    
+    def isOffGraph(self):
+        return not(self.isOnGraph())
+    
     def revive(self):
         self.dying = False
         

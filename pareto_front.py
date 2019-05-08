@@ -49,13 +49,17 @@ class ParetoFront:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p:
                         self.paretoFront[-1].dying = True        
-                        
-            
 
             # Update values 
+            # if self.allMotionSuspended():
+            #     self.updateParetoFront()
+            #     self.clearDead()
             self.updateParetoFront()
             self.animateMovement()
             self.clearDead()
+            if len(self.pop) < 10: 
+                self.refillPop()
+            
             
             # Redraw shadow and bots
             display.fill(c.WHITE)    
@@ -74,7 +78,7 @@ class ParetoFront:
         self.paretoFront = []
         self.dominatedBots = []
         for bot in self.pop: 
-            if not(bot.inShadow(self.pop)):
+            if not(bot.inShadow(self.pop)) and bot.isOnGraph():
                 self.paretoFront.append(bot)
             else:
                 self.dominatedBots.append(bot)
@@ -84,6 +88,13 @@ class ParetoFront:
         
         for bot in self.dominatedBots: 
             bot.die()
+    
+    def allMotionSuspended(self):
+        for bot in self.pop: 
+            if (bot.animation_countdown > 0): 
+                return False 
+        print("allMotionSuspended")
+        return True
     
     def animateMovement(self): 
         for bot in self.pop:
@@ -97,12 +108,30 @@ class ParetoFront:
                 bot.draw(surface, c.PRIMARY_MARKER_SIZE)
     
     def clearDead(self):
-        for i in range(0, len(self.pop)):
-            if i < len(self.pop):
-                if (self.pop[i].dying == True) and (self.pop[i].animation_countdown == 0) and (self.pop[i].getX() < 0) and (self.pop[i].getY() < 0):
-                    print("clearDead")
-                    del self.pop[i]
-                    print(len(self.pop))
+        newPopulation = self.pop
+        for bot in self.pop: 
+            if (bot.dying and bot.animation_countdown == 0 and bot.isOffGraph()):
+                newPopulation.remove(bot)
+            
+        self.pop = newPopulation
+        
+    def refillPop(self):
+        print("refillPop()")
+        availableIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        for bot in self.pop:
+            availableIds.remove(bot.id)
+            
+        print("availableIds")
+        print(availableIds)
+            
+        for i in range(len(self.pop), c.popSize): 
+            # id = random.choice(availableIds)
+            # print("id " + str(id))
+            # print("availableIds " + str(availableIds))
+            self.pop.append(Robot(availableIds.pop(0), (random.randint(0, c.DISPLAY_WIDTH), random.randint(0, c.DISPLAY_HEIGHT))))
+        
+        print("pop")
+        print(len(self.pop))
 
     def drawShadow(self, surface):
         for bot in self.paretoFront: 
