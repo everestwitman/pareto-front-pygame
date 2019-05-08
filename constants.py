@@ -101,4 +101,4 @@ MARKER_SIZE = 24
 PRIMARY_MARKER_SIZE = MARKER_SIZE * 2
 
 FPS = 60
-popSize = len(colors)
+POP_SIZE = len(colors)

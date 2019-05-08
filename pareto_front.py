@@ -8,7 +8,7 @@ import random
 class ParetoFront:
     def __init__(self):     
         self.pop = []
-        for i in range(0, c.popSize): 
+        for i in range(0, c.POP_SIZE): 
             self.pop.append(Robot(i, (random.randint(0, c.DISPLAY_WIDTH), random.randint(0, c.DISPLAY_HEIGHT))))
         
         self.paretoFront = []
@@ -45,20 +45,18 @@ class ParetoFront:
                         self.pop[self.primaryBotId].moveDown(10)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p:
-                        self.paretoFront[-1].dying = True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        self.paretoFront[-1].dying = True        
+                        self.paretoFront[-1].dying = True     
 
             # Update values 
-            # if self.allMotionSuspended():
-            #     self.updateParetoFront()
-            #     self.clearDead()
-            self.updateParetoFront()
+            if self.allMotionSuspended():
+                self.updateParetoFront()
+                self.clearDead()
+                if len(self.pop) < c.POP_SIZE: 
+                    self.refillPop()
+
             self.animateMovement()
-            self.clearDead()
-            if len(self.pop) < 10: 
-                self.refillPop()
+
+
             
             
             # Redraw shadow and bots
@@ -124,7 +122,7 @@ class ParetoFront:
         print("availableIds")
         print(availableIds)
             
-        for i in range(len(self.pop), c.popSize): 
+        for i in range(len(self.pop), c.POP_SIZE): 
             # id = random.choice(availableIds)
             # print("id " + str(id))
             # print("availableIds " + str(availableIds))
