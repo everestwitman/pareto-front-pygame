@@ -5,6 +5,12 @@ import constants as c
 import random
 
 
+# TODO
+# Skull and cross bones
+# Outline circles on the pareto front
+# Have children appear from parent 
+
+
 class ParetoFront:
     def __init__(self):     
         self.pop = []
@@ -56,9 +62,6 @@ class ParetoFront:
 
             self.animateMovement()
 
-
-            
-            
             # Redraw shadow and bots
             display.fill(c.WHITE)    
             self.drawShadow(display)
@@ -66,7 +69,7 @@ class ParetoFront:
             
             # Pygame cycle updates 
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(5)
     
     def randomPrimaryBotId(self):     
         return self.paretoFront[random.randint(0, len(self.paretoFront) - 1)].id
