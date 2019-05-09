@@ -4,6 +4,7 @@ from robot import Robot
 import constants as c
 import random
 
+
 class ParetoFront:
     def __init__(self):     
         self.pop = []
@@ -30,22 +31,7 @@ class ParetoFront:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     runForever = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.pop[self.primaryBotId].moveLeft(10)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT:
-                        self.pop[self.primaryBotId].moveRight(10)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        self.pop[self.primaryBotId].moveUp(10)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_DOWN:
-                        self.pop[self.primaryBotId].moveDown(10)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        self.paretoFront[-1].dying = True     
-
+                    
             # Update values 
             if self.allMotionSuspended():
                 self.updateParetoFront()
