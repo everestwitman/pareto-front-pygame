@@ -4,13 +4,6 @@ from robot import Robot
 import constants as c
 import random
 
-
-# TODO
-# Skull and cross bones
-# Outline circles on the pareto front
-# Have children appear from parent 
-
-
 class ParetoFront:
     def __init__(self):     
         self.pop = []
@@ -69,7 +62,7 @@ class ParetoFront:
             
             # Pygame cycle updates 
             pygame.display.update()
-            self.clock.tick(5)
+            self.clock.tick(60)
     
     def randomPrimaryBotId(self):     
         return self.paretoFront[random.randint(0, len(self.paretoFront) - 1)].id
@@ -94,7 +87,6 @@ class ParetoFront:
         for bot in self.pop: 
             if (bot.animation_countdown > 0): 
                 return False 
-        print("allMotionSuspended")
         return True
     
     def animateMovement(self): 
@@ -117,22 +109,15 @@ class ParetoFront:
         self.pop = newPopulation
         
     def refillPop(self):
-        print("refillPop()")
         availableIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         for bot in self.pop:
             availableIds.remove(bot.id)
-            
-        print("availableIds")
-        print(availableIds)
             
         for i in range(len(self.pop), c.POP_SIZE): 
             # id = random.choice(availableIds)
             # print("id " + str(id))
             # print("availableIds " + str(availableIds))
             self.pop.append(Robot(availableIds.pop(0), (random.randint(0, c.DISPLAY_WIDTH), random.randint(0, c.DISPLAY_HEIGHT))))
-        
-        print("pop")
-        print(len(self.pop))
 
     def drawShadow(self, surface):
         for bot in self.paretoFront: 

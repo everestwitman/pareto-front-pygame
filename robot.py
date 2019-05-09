@@ -31,7 +31,6 @@ class Robot:
         self.animateMovementToPos((-2 * (c.PRIMARY_MARKER_SIZE), (-2 * (c.PRIMARY_MARKER_SIZE))), 20)
         
     def moveAnimationFrame(self): 
-        # print(self.animation_countdown)
         if self.animation_countdown > 0: 
             self.moveRight(self.velocity[0])
             self.moveUp(self.velocity[1])
